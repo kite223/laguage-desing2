@@ -1,0 +1,826 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>알기 쉬운 언어 설계 프로젝트 · 4차시</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* 레이아웃: 단일 칼럼 문서. 읽는 영역(원자료)은 모래빛 종이, 쓰는 영역은 흰 칸 + 청록 레일로 구분 */
+:root{
+  --paper:#f7f8f7;
+  --card:#ffffff;
+  --ink:#1b2422;
+  --ink-soft:#56635f;
+  --line:#d4dcd9;
+  --accent:#0d6b63;
+  --accent-soft:#e3f0ee;
+  --source:#fbf6ec;
+  --source-line:#e0d3bb;
+  --warn:#9a4a1f;
+  --font-body:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",system-ui,sans-serif;
+  --font-doc:"Batang","바탕","Nanum Myeongjo",serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#141917; --card:#1b2220; --ink:#e8efec; --ink-soft:#9fb0ab;
+    --line:#32403c; --accent:#5fcfc0; --accent-soft:#17302d;
+    --source:#221f19; --source-line:#443c2c; --warn:#e4a176;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#141917; --card:#1b2220; --ink:#e8efec; --ink-soft:#9fb0ab;
+  --line:#32403c; --accent:#5fcfc0; --accent-soft:#17302d;
+  --source:#221f19; --source-line:#443c2c; --warn:#e4a176;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:var(--font-body); font-size:15px; line-height:1.65;
+  margin:0;
+}
+.wrap{
+  max-width:860px; margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:28px 56px;
+}
+h1,h2,h3{text-wrap:balance;margin:0}
+
+/* 머리글 */
+.masthead{border-top:4px solid var(--accent);padding-top:18px;margin-bottom:22px}
+.eyebrow{font-size:12px;letter-spacing:.14em;color:var(--accent);font-weight:700}
+.masthead h1{font-size:27px;line-height:1.25;margin:8px 0 6px;letter-spacing:-.01em}
+.sub{color:var(--ink-soft);font-size:14px}
+.idbar{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.idbar label{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-soft);font-weight:600;white-space:nowrap}
+
+/* 공통 입력 */
+input[type=text],textarea{
+  font-family:inherit;font-size:15px;color:var(--ink);
+  background:var(--card);border:1px solid var(--line);border-radius:6px;
+  padding:7px 9px;width:100%;
+}
+textarea{resize:vertical;overflow:hidden;line-height:1.7;min-height:52px;display:block}
+input[type=text]:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.idbar input[type=text]{width:90px;flex:none}
+.idbar label:last-child input[type=text]{width:120px}
+input[type=text]::placeholder,textarea::placeholder{color:var(--ink-soft);opacity:.65}
+
+/* 과제 개요 */
+.brief{background:var(--accent-soft);border-radius:10px;padding:18px 20px;margin-bottom:26px}
+.brief h2{font-size:15px;margin-bottom:10px;color:var(--accent)}
+.brief dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:14px}
+.brief dt{font-weight:700;white-space:nowrap}
+.brief dd{margin:0}
+.quest{margin-top:14px;padding-top:12px;border-top:1px solid color-mix(in srgb,var(--accent) 25%,transparent);font-size:14px}
+
+/* 단계 */
+section{margin-bottom:30px}
+.step-head{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.num{
+  flex:none;font-size:12px;font-weight:700;letter-spacing:.06em;
+  color:var(--card);background:var(--accent);border-radius:4px;padding:3px 8px;
+}
+.step-head h2{font-size:19px;letter-spacing:-.01em}
+.hint{color:var(--ink-soft);font-size:13.5px;margin:0 0 12px}
+.hint b{color:var(--warn)}
+
+/* 원자료 */
+.source{
+  background:var(--source);border:1px solid var(--source-line);border-radius:10px;
+  padding:20px 22px;font-family:var(--font-doc);
+}
+.source .doc-head{text-align:center;border-bottom:1px solid var(--source-line);padding-bottom:12px;margin-bottom:14px}
+.source .doc-no{font-size:12px;color:var(--ink-soft);font-family:var(--font-body)}
+.source .doc-title{font-size:18px;font-weight:700;margin-top:4px}
+.source p{margin:0 0 9px;text-indent:0}
+.source .sec{font-weight:700;margin:16px 0 7px}
+.source .sign{text-align:center;font-weight:700;margin-top:18px;letter-spacing:.3em}
+.s-no{color:var(--accent);font-weight:700;font-family:var(--font-body);font-size:13px;margin-right:3px}
+.refbox{
+  margin-top:12px;font-size:13.5px;color:var(--ink-soft);
+  border-left:3px solid var(--accent);padding:4px 0 4px 12px;
+}
+
+/* 표 */
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{border:1px solid var(--line);padding:8px 9px;vertical-align:top;text-align:left}
+th{background:var(--accent-soft);font-size:13px;font-weight:700;white-space:nowrap}
+td input[type=text],td textarea{border:none;background:transparent;padding:2px;border-radius:3px}
+td select{font-family:inherit;font-size:15px;padding:4px 6px;border:1px solid var(--line);border-radius:5px;background:var(--card);color:var(--ink)}
+td select:focus{outline:2px solid var(--accent);outline-offset:0}
+td input[type=text]:focus,td textarea:focus{outline:2px solid var(--accent);outline-offset:0}
+.rown{text-align:center;color:var(--ink-soft);font-weight:700;width:34px}
+
+/* 수정본 */
+.rules{
+  background:var(--card);border:1px solid var(--line);border-radius:8px;
+  padding:12px 14px;margin-bottom:12px;font-size:13.5px;color:var(--ink-soft);
+}
+.rules strong{color:var(--ink)}
+.rules ul{margin:6px 0 0;padding-left:18px}
+.rules li{margin-bottom:2px}
+.sheet{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
+.sheet textarea{border:none;min-height:260px;font-size:15.5px;padding:0}
+.rev th{width:92px;text-align:center;font-size:14px;color:var(--accent);background:var(--accent-soft)}
+.rev th.wide{width:auto;text-align:left;color:var(--ink-soft)}
+.rev tr.sec th{color:var(--ink-soft);background:var(--paper);font-size:12.5px}
+.rev tr.sec td input[type=text]{font-weight:700}
+.rev td textarea{min-height:46px;font-size:15px;line-height:1.65;width:100%}
+.rev td input[type=text]{font-size:15px;width:100%}
+.ttl{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.ttl label{flex:none;font-size:13px;font-weight:700;color:var(--accent)}
+.ttl input{flex:1;border:none;background:transparent;font-size:17px;font-weight:700;padding:4px 2px}
+.ttl input:focus{outline:2px solid var(--accent);border-radius:4px}
+.illbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:0 0 10px;padding:10px 12px;background:var(--accent-soft);border-radius:8px}
+.illbar .lab{font-size:12.5px;font-weight:700;color:var(--accent);flex:none}
+.illbar .st{font-size:12.5px;color:var(--ink-soft)}
+.illbar .tbtn{background:var(--card)}
+input.auto{background:var(--paper)!important;color:var(--ink-soft);font-style:normal}
+/* 미리보기 */
+.pv-wrap{position:fixed;inset:0;background:rgba(18,28,26,.6);z-index:60;display:none;flex-direction:column}
+.pv-wrap.open{display:flex}
+.pv-bar{flex:none;display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:11px 15px;background:var(--card);border-bottom:1px solid var(--line)}
+.pv-bar .t{flex:1;min-width:180px;font-size:13.5px;font-weight:700;color:var(--accent)}
+.pv-warn{flex:none;width:100%;font-size:12.5px;color:#9a3412;background:#fff5ed;border-radius:6px;padding:7px 10px}
+.pv-warn.ok{color:#14532d;background:#eaf5ee}
+.pv-scroll{flex:1;overflow:auto;padding:22px 14px 70px;display:flex;justify-content:center}
+.pv-paper{width:100%;max-width:780px;background:#fff;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,.28);padding:44px 50px 54px;align-self:flex-start}
+.nt-head{text-align:right;font-size:12px;color:#777;margin-bottom:16px}
+.nt-title{text-align:center;font-size:25px;font-weight:700;margin:0 0 14px;color:#161616;line-height:1.35}
+.nt-rule{border:0;border-top:2px solid #333;margin:0 0 24px}
+.nt-sec{font-size:17px;font-weight:700;margin:26px 0 9px;color:#161616}
+.nt-p{font-size:16px;line-height:1.85;margin:0 0 11px;color:#1a1a1a;white-space:pre-wrap}
+.nt-fig{margin:16px 0;text-align:center}
+.nt-fig .box{display:inline-flex;align-items:center;justify-content:center;width:196px;height:146px;border:1px solid #dcdcdc;border-radius:8px;background:#fbfbfb}
+.nt-fig svg{width:88px;height:88px;stroke:#2b2b2b;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.nt-fig img{max-width:188px;max-height:138px}
+.nt-fig .cap{font-size:11.5px;color:#9a9a9a}
+.nt-sign{text-align:center;font-size:19px;font-weight:700;letter-spacing:7px;margin-top:42px;color:#161616}
+.nt-empty{color:#b3261e;font-size:14px}
+.rp-meta{font-size:14px;color:#444;margin-bottom:6px}
+.rp-h{font-size:15px;font-weight:700;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:6px;margin:30px 0 13px}
+.rp-row{border:1px solid #e4e4e4;border-radius:8px;padding:12px 14px;margin-bottom:9px}
+.rp-badge{display:inline-block;font-size:12px;font-weight:700;color:#fff;background:var(--accent);border-radius:4px;padding:3px 9px;margin-bottom:7px}
+.rp-k{font-size:11.5px;color:#8a8a8a;margin-top:7px;letter-spacing:.3px}
+.rp-v{font-size:14.5px;line-height:1.7;white-space:pre-wrap;color:#1a1a1a}
+.rp-best{border:1px solid var(--accent);background:var(--accent-soft);border-radius:8px;padding:12px 14px;margin:12px 0 4px}
+.rp-best b{font-size:13px;color:var(--accent)}
+.rp-dl{margin:0}
+.rp-dl dt{font-weight:700;font-size:14.5px;margin-top:9px;color:#161616}
+.rp-dl dd{margin:2px 0 0;font-size:14.5px;line-height:1.7;color:#1a1a1a}
+.pv-open{font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;background:var(--accent);color:#fff;border:none;border-radius:7px;padding:11px 18px}
+.pv-open:hover{background:var(--accent-dark,#0a564f)}
+
+/* 점검표 */
+.check{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.check li{display:flex;gap:9px;align-items:flex-start;font-size:14px;background:var(--card);border:1px solid var(--line);border-radius:7px;padding:9px 11px}
+.check input{margin-top:3px;flex:none;width:16px;height:16px;accent-color:var(--accent)}
+.check span b{color:var(--accent);font-weight:700}
+.check .eln{display:inline-block;font-style:normal;font-size:11.5px;color:var(--ink-soft);margin-left:7px;white-space:nowrap}
+
+/* 삽화 */
+.ill-grid{display:grid;gap:14px}
+.ill-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.ill-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.ill-n{flex:none;font-size:12px;font-weight:700;color:var(--card);background:var(--accent);border-radius:4px;padding:4px 9px}
+.ill-top input{flex:1;min-width:0}
+.ill-body{display:flex;gap:16px;flex-wrap:wrap}
+.ill-left{flex:none;width:268px;max-width:100%}
+.ill-right{flex:1;min-width:230px;display:grid;gap:7px;align-content:start}
+.ill-pic{
+  width:100%;max-width:268px;height:188px;border:1px dashed var(--line);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;background:var(--card);overflow:hidden;
+}
+.ill-pic svg{width:116px;height:116px;stroke:var(--ink);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.ill-pic canvas{touch-action:none;cursor:crosshair;display:block}
+.ill-empty{font-size:13px;color:var(--ink-soft);text-align:center;padding:0 14px}
+.ill-tools{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
+.tbtn{font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer;background:var(--accent-soft);color:var(--accent);border:1px solid transparent;border-radius:6px;padding:7px 11px}
+.tbtn:hover{border-color:var(--accent)}
+.tbtn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.icon-grid{display:none;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:10px;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--paper)}
+.icon-grid.open{display:grid}
+.icon-grid button{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:7px 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px}
+.icon-grid button:hover{border-color:var(--accent)}
+.icon-grid svg{width:26px;height:26px;stroke:var(--ink);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.icon-grid span{font-size:10px;color:var(--ink-soft)}
+.ill-lab{font-size:12.5px;font-weight:700;color:var(--ink-soft)}
+
+/* 바닥 */
+.footer{margin-top:34px;border-top:1px solid var(--line);padding-top:16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.btn{
+  font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;
+  background:var(--accent);color:#fff;border:none;border-radius:7px;padding:11px 20px;
+}
+.btn.ghost{background:transparent;color:var(--ink-soft);border:1px solid var(--line)}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.saved{font-size:13px;color:var(--ink-soft)}
+.note{font-size:12.5px;color:var(--ink-soft);margin-top:10px}
+
+@media (max-width:520px){
+  .masthead h1{font-size:22px}
+  .brief dl{grid-template-columns:1fr;gap:2px}
+  .brief dt{margin-top:6px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* 인쇄: 항상 밝은 색, 버튼 숨김, 칸 테두리 유지 */
+@media print{
+  :root{
+    --paper:#fff;--card:#fff;--ink:#000;--ink-soft:#333;--line:#999;
+    --accent:#000;--accent-soft:#f0f0f0;--source:#f7f7f7;--source-line:#999;--warn:#000;
+    color-scheme:light;
+  }
+  @page{size:A4;margin:14mm}
+  body{font-size:11pt;background:#fff}
+  .wrap{max-width:none;padding:0}
+  .noprint{display:none!important}
+  section{break-inside:auto;margin-bottom:16px}
+  .step-head,.source,.sheet,table,.check li{break-inside:avoid}
+  .num{border:1px solid #000;color:#000;background:#fff}
+  textarea,input[type=text]{border:1px solid #999!important;background:#fff!important}
+  td textarea,td input[type=text]{border:none!important}
+  .brief{border:1px solid #999}
+  .pv-wrap{display:none!important}
+  .pv-open{display:none!important}
+  body.pv-printing>.wrap{display:none!important}
+  body.pv-printing .pv-wrap{display:block!important;position:static;background:#fff;inset:auto}
+  body.pv-printing .pv-bar{display:none!important}
+  body.pv-printing .pv-scroll{display:block;overflow:visible;padding:0}
+  body.pv-printing .pv-paper{max-width:none;width:auto;box-shadow:none;border-radius:0;padding:0}
+  body.pv-printing .nt-fig,body.pv-printing .rp-row,body.pv-printing .rp-best{break-inside:avoid}
+  .illbar{display:none!important}
+  .ttl{border:1px solid #999}
+  .rev td textarea{min-height:0}
+  .ill-card{border:1px solid #999;break-inside:avoid}
+  .ill-pic{border:1px solid #999!important}
+  .icon-grid,.ill-tools{display:none!important}
+}
+</style>
+
+
+<div class="wrap">
+
+
+  <header class="masthead">
+    <div class="eyebrow">화법과 언어 · 2학기 수행평가 (30점) · 4차시</div>
+    <h1>알기 쉬운 언어 설계 프로젝트</h1>
+    <p class="sub">지난 시간에 고쳐 쓴 글을, 왜 그렇게 고쳤는지 문법 개념으로 설명합니다.</p>
+    <div class="idbar noprint-keep">
+      <label>학년·반 <input type="text" id="id-class" maxlength="10"></label>
+      <label>번호 <input type="text" id="id-no" maxlength="6"></label>
+      <label>이름 <input type="text" id="id-name" maxlength="12"></label>
+    </div>
+  </header>
+
+
+  <div class="brief">
+    <h2>오늘 할 일</h2>
+    <dl>
+      <dt>준비</dt><dd>지난 시간에 저장한 <b>3차시 PDF</b>를 함께 띄워 두세요. 리로 1차 제출함에서 내 제출물을 열어 보아도 됩니다. 종이 원자료는 오늘 다시 나누어 줍니다.</dd>
+      <dt>할 일</dt><dd>그 수정본을 보며 <b>언어 설계 보고서</b>를 씁니다. 무엇을 고쳤는지가 아니라, <b>왜 그렇게 고쳤는지</b>를 문법 개념으로 설명하는 것이 오늘의 과제입니다.</dd>
+      <dt>유의</dt><dd>보고서에 적는 문장·어휘·단어는 모두 <b>3차시에 낸 수정본에 실제로 있는 것</b>이어야 합니다. 수정본에 없는 것을 적으면 그 행은 채점에서 빠집니다.</dd>
+    </dl>
+    <div class="quest"><b>오늘의 질문</b> &nbsp;나는 무엇을 근거로 그렇게 고쳤는가?</div>
+  </div>
+
+  <section>
+    <div class="step-head"><span class="num">확인</span><h2>지난 시간 제출본 확인</h2></div>
+    <p class="hint">보고서를 쓰기 전에 3차시 PDF를 열어 두고, 두 칸을 그대로 옮겨 적으세요. 아래 보고서의 근거가 모두 그 PDF 안에 있어야 합니다.</p>
+    <div class="tw">
+      <table>
+        <tr><th style="width:150px">받은 자료의 기호</th>
+          <td><select id="k-code"><option value="">— 고르세요 —</option><option>A</option><option>B</option><option>C</option></select></td></tr>
+        <tr><th>내가 정한 독자</th>
+          <td><input type="text" id="k-who" placeholder="3차시에 쓴 그대로 옮겨 적으세요"></td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="step-head"><span class="num">5단계</span><h2>언어 설계 보고서</h2></div>
+    <p class="hint">여기가 채점의 핵심입니다. ‘더 쉬워서 바꿨다’는 근거가 되지 않습니다. 배운 문법 용어로 설명하세요.</p>
+
+    <h3 style="font-size:15px;margin:18px 0 7px">① 문장 설계 <span style="font-weight:400;color:var(--ink-soft);font-size:13px">— 고치고 나서 무엇이 달라졌는가</span></h3>
+    <p class="hint">문장을 다시 옮겨 적지 않습니다. 고친 문장은 3차시에 낸 수정본에 이미 있으니, <b>어느 칸인지만 가리키세요.</b> 2단계에서 쓴 ‘왜 어려운가’와는 다른 칸입니다. 거기는 <b>고치기 전</b>의 진단이고, 여기는 <b>고친 뒤</b>에 무엇이 달라졌는지를 쓰는 자리입니다.</p>
+    <div class="tw">
+      <table>
+        <tr><th class="rown">#</th><th style="width:66px">칸</th><th style="width:38%">무엇을 어떻게 바꿨는가 <span style="font-weight:400">(문법 용어로)</span></th><th>바꾸고 나서 내 독자에게 무엇이 달라지는가</th></tr>
+        <tr><td class="rown">1</td><td><input type="text" id="s1n" maxlength="2" style="text-align:center" placeholder="⑤"></td><td><textarea id="s1a" rows="2" placeholder="예) ‘제출이 이루어져야’라는 피동·명사화 표현을 ‘내야 합니다’라는 능동 동사로 바꿨다."></textarea></td><td><textarea id="s1c" rows="2" placeholder="예) 누가 무엇을 해야 하는지가 드러나, 내 독자가 자기 할 일로 읽을 수 있다."></textarea></td></tr>
+        <tr><td class="rown">2</td><td><input type="text" id="s2n" maxlength="2" style="text-align:center"></td><td><textarea id="s2a" rows="2"></textarea></td><td><textarea id="s2c" rows="2"></textarea></td></tr>
+        <tr><td class="rown">3</td><td><input type="text" id="s3n" maxlength="2" style="text-align:center"></td><td><textarea id="s3a" rows="2"></textarea></td><td><textarea id="s3c" rows="2"></textarea></td></tr>
+      </table>
+    </div>
+    <div class="tw" style="margin-top:12px">
+      <table>
+        <tr><th style="width:150px">가장 공들여 고친 한 곳</th>
+          <td><textarea id="s-best" rows="2" placeholder="위 표에서 한 곳을 골라, 왜 그곳에 가장 공을 들였는지 내 독자와 연결해 쓰세요. 한 문장이면 됩니다. 예) 2번 문장은 기한을 놓치면 참가 자체가 막히는 곳이라, 날짜를 맨 앞으로 빼고 한 문장에 하나만 담았다."></textarea></td></tr>
+      </table>
+    </div>
+
+    <h3 style="font-size:15px;margin:22px 0 7px">② 어휘 설계 <span style="font-weight:400;color:var(--ink-soft);font-size:13px">— 바꾼 말과, 남기고 풀이한 말</span></h3>
+    <div class="tw">
+      <table>
+        <tr><th class="rown">#</th><th style="width:20%">원래 어휘</th><th style="width:20%">바꾼 어휘</th><th>의미 관계·어감의 차이를 근거로</th></tr>
+        <tr><td class="rown">1</td><td><input type="text" id="w1a"></td><td><input type="text" id="w1b"></td><td><textarea id="w1c" rows="2" placeholder="예) ‘당부드립니다’와 ‘부탁드립니다’는 유의 관계이지만…"></textarea></td></tr>
+        <tr><td class="rown">2</td><td><input type="text" id="w2a"></td><td><input type="text" id="w2b"></td><td><textarea id="w2c" rows="2"></textarea></td></tr>
+        <tr><td class="rown">3</td><td><input type="text" id="w3a"></td><td><input type="text" id="w3b"></td><td><textarea id="w3c" rows="2"></textarea></td></tr>
+      </table>
+    </div>
+
+    <h3 style="font-size:15px;margin:22px 0 7px">③ 단어 사전 <span style="font-weight:400;color:var(--ink-soft);font-size:13px">— 바꾸지 않고 남긴 용어 풀이 (풀이 형식을 통일할 것)</span></h3>
+    <div class="tw">
+      <table>
+        <tr><th class="rown">#</th><th style="width:26%">남긴 용어</th><th>쉬운 풀이</th></tr>
+        <tr><td class="rown">1</td><td><input type="text" id="g1a"></td><td><input type="text" id="g1b" placeholder="예) 학교가 정해 둔 규칙을 적어 놓은 글"></td></tr>
+        <tr><td class="rown">2</td><td><input type="text" id="g2a"></td><td><input type="text" id="g2b"></td></tr>
+        <tr><td class="rown">3</td><td><input type="text" id="g3a"></td><td><input type="text" id="g3b"></td></tr>
+      </table>
+    </div>
+
+    <h3 style="font-size:15px;margin:22px 0 7px">④ 발음 안내 <span style="font-weight:400;color:var(--ink-soft);font-size:13px">— 이 자료를 소리 내어 읽어 줄 사람을 위해</span></h3>
+    <p class="hint">내 수정본에서 <b>표기와 발음이 다른 단어</b>를 찾습니다. 음운 변동의 이름까지 밝히세요. 두 가지 변동이 겹친 단어를 찾으면 더 좋습니다.</p>
+    <div class="tw">
+      <table>
+        <tr><th class="rown">#</th><th style="width:22%">단어</th><th style="width:20%">표준 발음</th><th>어떤 음운 변동인가</th></tr>
+        <tr><td class="rown">1</td><td><input type="text" id="p1a"></td><td><input type="text" id="p1b" placeholder="[     ]"></td><td><input type="text" id="p1c"></td></tr>
+        <tr><td class="rown">2</td><td><input type="text" id="p2a"></td><td><input type="text" id="p2b" placeholder="[     ]"></td><td><input type="text" id="p2c"></td></tr>
+        <tr><td class="rown">3</td><td><input type="text" id="p3a"></td><td><input type="text" id="p3b" placeholder="[     ]"></td><td><input type="text" id="p3c"></td></tr>
+        <tr><td class="rown">4</td><td><input type="text" id="p4a"></td><td><input type="text" id="p4b" placeholder="[     ]"></td><td><input type="text" id="p4c"></td></tr>
+      </table>
+    </div>
+  </section>
+
+
+  <section>
+    <div class="step-head"><span class="num">점검</span><h2>내가 한 일을 확인하기</h2></div>
+    <p class="hint">오늘 쓴 보고서로 판정되는 평가 기준입니다. 오른쪽 작은 글씨는 평가계획서의 요소 번호입니다. 아래 ✓ 두 줄은 점수 항목은 아니지만, 어긋나면 해당 행이 채점에서 빠집니다.</p>
+    <ul class="check">
+      <li><input type="checkbox" id="c4"><span><b>1</b> 문장을 고쳐 쓴 근거와 수정 전후의 표현 효과 차이를 문법 개념을 활용하여 설명하였는가? <i class="eln">평가 요소 ④</i></span></li>
+      <li><input type="checkbox" id="c5"><span><b>2</b> 단어의 의미 관계와 어감의 차이를 고려하여 어휘를 적절한 어휘로 바꾸어 썼는가? <i class="eln">평가 요소 ⑤</i></span></li>
+      <li><input type="checkbox" id="c6"><span><b>3</b> 자료의 이해에 꼭 필요한 용어를 단어 사전의 형식으로 알기 쉽게 풀이하였는가? <i class="eln">평가 요소 ⑥</i></span></li>
+      <li><input type="checkbox" id="c7"><span><b>4</b> 표기와 발음이 다른 단어를 찾아 표준 발음을 제시하고 음운 변동을 설명하였는가? <i class="eln">평가 요소 ⑦</i></span></li>
+      <li><input type="checkbox" id="cx1"><span><b>✓</b> 문장 설계에 적은 칸 번호가, 지난 시간에 낸 수정본의 그 칸과 맞는가?</span></li>
+      <li><input type="checkbox" id="cx2"><span><b>✓</b> 어휘·단어 사전·발음 안내에 적은 말이 지난 시간에 낸 수정본에 실제로 쓰여 있는가?</span></li>
+    </ul>
+  </section>
+
+
+  <section>
+    <div class="step-head"><span class="num">성찰</span><h2>다시 답해 보기</h2></div>
+    <p class="hint">단원을 시작할 때 받았던 질문입니다. 네 시간 동안 생각이 어떻게 달라졌는지를 쓰세요.</p>
+    <div class="sheet">
+      <textarea id="reflect" rows="4" placeholder="좋은 글의 기준은 무엇에 따라 달라지는가?&#10;— 이번 과제를 하며 알게 된 것, 처음 생각과 달라진 점을 씁니다."></textarea>
+    </div>
+  </section>
+
+
+  <section>
+    <div class="step-head"><span class="num">제출</span><h2>마치기</h2></div>
+    <div class="rules">
+      <strong>제출 방법</strong>
+      <ul>
+        <li>아래 <b>인쇄 · PDF로 저장</b>을 눌러 PDF 파일로 저장합니다.</li>
+        <li>파일 이름은 <b>학번_이름_4차시</b>로 합니다. (예: 20100_김계성_4차시)</li>
+        <li>리로 <b>최종 제출함</b>에 올립니다.</li>
+      </ul>
+    </div>
+    <p style="margin:14px 0 10px"><button type="button" class="pv-open" id="pv-open">언어 설계 보고서 미리보기</button></p>
+    <p class="hint">보고서가 한 편의 문서로 어떻게 보이는지 확인할 수 있습니다. 모자란 칸이 있으면 몇 개가 더 필요한지 알려 줍니다.</p>
+  </section>
+
+  <div class="footer noprint">
+    <div>
+      <button class="btn" id="btn-print" type="button">인쇄 · PDF로 저장</button>
+      <button class="btn ghost" id="btn-clear" type="button">내용 모두 지우기</button>
+      <p class="note">쓰는 내용은 이 기기의 브라우저에 자동으로 저장됩니다. 다른 기기에서는 이어서 쓸 수 없습니다. 수업이 끝나기 전에 PDF로 저장해 리로 최종 제출함에 내세요.</p>
+    </div>
+    <div class="saved" id="saved-at">자동 저장 준비 중</div>
+  </div>
+
+</div>
+
+
+  <div class="pv-wrap" id="pv" data-kind="report" aria-hidden="true">
+    <div class="pv-bar">
+      <span class="t">미리보기 — 언어 설계 보고서</span>
+      <button type="button" class="tbtn" id="pv-print">이 화면만 인쇄 · PDF로 저장</button>
+      <button type="button" class="tbtn" id="pv-close">닫기</button>
+      <div class="pv-warn" id="pv-warn" style="display:none"></div>
+    </div>
+    <div class="pv-scroll"><div class="pv-paper" id="pv-body"></div></div>
+  </div>
+
+<script>
+(function(){
+  var KEY = 'hwaeon-language-design-s4';
+  var fields = Array.prototype.slice.call(
+    document.querySelectorAll('input[type=text], textarea, select, input[type=checkbox]')
+  ).filter(function(el){ return el.id; });
+
+  /* ── 삽화: 아이콘 모음 ── */
+  var ICONS = [
+    ['cal','달력','<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>'],
+    ['clock','시계','<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>'],
+    ['doc','서류','<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>'],
+    ['pen','연필','<path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19z"/>'],
+    ['pc','컴퓨터','<rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/>'],
+    ['school','학교','<path d="M3 21V10l9-6 9 6v11z"/><path d="M9 21v-6h6v6"/>'],
+    ['person','사람','<circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/>'],
+    ['people','여러 사람','<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.1 2.7-5 6-5s6 1.9 6 5"/><path d="M16 5.2a3 3 0 0 1 0 5.6M17 15c2.4.5 4 2.3 4 5"/>'],
+    ['ok','됨','<circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16 9"/>'],
+    ['no','안 됨','<circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/>'],
+    ['warn','주의','<path d="M12 3L2 20h20z"/><path d="M12 9v5M12 17h.01"/>'],
+    ['phone','전화','<path d="M7 3h3l2 5-2.5 1.5a12 12 0 0 0 5 5L16 12l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z"/>'],
+    ['mail','편지','<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>'],
+    ['bag','가방','<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/>'],
+    ['bus','버스','<rect x="4" y="4" width="16" height="12" rx="2"/><path d="M4 11h16M7 20v-2.5M17 20v-2.5"/><circle cx="8" cy="14" r="1"/><circle cx="16" cy="14" r="1"/>'],
+    ['money','돈','<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/>'],
+    ['pin','장소','<path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>'],
+    ['talk','말하기','<path d="M21 12a8 8 0 0 1-8 8H8l-5 3 1.5-4.5A8 8 0 1 1 21 12z"/>'],
+  ];
+  var pics = { '1': { type: 'none' }, '2': { type: 'none' } };
+
+  function iconSvg(id, cls){
+    for (var i = 0; i < ICONS.length; i++) {
+      if (ICONS[i][0] === id) return '<svg viewBox="0 0 24 24" role="img" aria-label="' + ICONS[i][1] + '">' + ICONS[i][2] + '</svg>';
+    }
+    return '';
+  }
+
+  function makeCanvas(slot, dataURL){
+    var cw = 264, ch = 186, dpr = Math.min(2, window.devicePixelRatio || 1);
+    var cv = document.createElement('canvas');
+    cv.width = Math.round(cw * dpr); cv.height = Math.round(ch * dpr);
+    cv.style.width = cw + 'px'; cv.style.height = ch + 'px';
+    var ctx = cv.getContext('2d');
+    ctx.scale(dpr, dpr);
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, cw, ch);
+    ctx.lineWidth = 2.2; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#1b2422';
+    if (dataURL) {
+      var img = new Image();
+      img.onload = function(){ ctx.drawImage(img, 0, 0, cw, ch); };
+      img.src = dataURL;
+    }
+    var drawing = false, lx = 0, ly = 0;
+    function at(e){ var r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
+    cv.addEventListener('pointerdown', function(e){
+      drawing = true;
+      try { cv.setPointerCapture(e.pointerId); } catch (err) {}
+      var q = at(e); lx = q[0]; ly = q[1];
+      ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(lx + 0.1, ly + 0.1); ctx.stroke();
+      e.preventDefault();
+    });
+    cv.addEventListener('pointermove', function(e){
+      if (!drawing) return;
+      var q = at(e);
+      ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(q[0], q[1]); ctx.stroke();
+      lx = q[0]; ly = q[1];
+      e.preventDefault();
+    });
+    function end(){
+      if (!drawing) return;
+      drawing = false;
+      try { pics[slot] = { type: 'draw', data: cv.toDataURL('image/png') }; save(); } catch (err) {}
+    }
+    cv.addEventListener('pointerup', end);
+    cv.addEventListener('pointercancel', end);
+    cv.addEventListener('pointerleave', end);
+    return cv;
+  }
+
+  function renderPic(slot){
+    var box = document.getElementById('pic' + slot);
+    if (!box) return;
+    var st = pics[slot] || { type: 'none' };
+    box.innerHTML = '';
+    if (st.type === 'icon') { box.innerHTML = iconSvg(st.icon); return; }
+    if (st.type === 'draw') { box.appendChild(makeCanvas(slot, st.data)); return; }
+    var sp = document.createElement('span');
+    sp.className = 'ill-empty';
+    sp.textContent = '아이콘을 고르거나 직접 그려 보세요';
+    box.appendChild(sp);
+  }
+
+  function buildGrid(slot){
+    var g = document.getElementById('grid' + slot);
+    if (!g || g.getAttribute('data-built')) return;
+    ICONS.forEach(function(ic){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.innerHTML = '<svg viewBox="0 0 24 24">' + ic[2] + '</svg><span>' + ic[1] + '</span>';
+      b.addEventListener('click', function(){
+        pics[slot] = { type: 'icon', icon: ic[0] };
+        renderPic(slot); g.classList.remove('open'); save();
+      });
+      g.appendChild(b);
+    });
+    g.setAttribute('data-built', '1');
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.tbtn[data-act]'), function(b){
+    b.addEventListener('click', function(){
+      var slot = b.getAttribute('data-slot'), act = b.getAttribute('data-act');
+      var g = document.getElementById('grid' + slot);
+      if (act === 'icon') { buildGrid(slot); g.classList.toggle('open'); return; }
+      g.classList.remove('open');
+      if (act === 'draw') {
+        var keep = (pics[slot] && pics[slot].type === 'draw') ? pics[slot].data : null;
+        pics[slot] = { type: 'draw', data: keep };
+      } else {
+        pics[slot] = { type: 'none' };
+      }
+      renderPic(slot); save();
+    });
+  });
+
+  function grow(el){
+    if (el.tagName !== 'TEXTAREA') return;
+    el.style.height = 'auto';
+    el.style.height = (el.scrollHeight + 2) + 'px';
+  }
+
+  /* ── 삽화 자리 표시 ── */
+  var revIns = Array.prototype.slice.call(document.querySelectorAll('.rev-in'));
+  var lastRev = null;
+  revIns.forEach(function(el){ el.addEventListener('focus', function(){ lastRev = el; }); });
+
+  function markWhere(n){
+    var tag = '[삽화' + n + ']', where = '';
+    revIns.forEach(function(el){
+      if (!where && el.value.indexOf(tag) !== -1) where = el.getAttribute('data-label');
+    });
+    return where;
+  }
+  function syncMarks(){
+    var msg = [];
+    [1, 2].forEach(function(n){
+      var w = markWhere(n);
+      var inp = document.getElementById('i' + n + 'a');
+      if (inp) inp.value = w ? ('수정본 ' + w) : '';
+      msg.push('삽화' + n + ' — ' + (w || '아직 없음'));
+    });
+    var st = document.getElementById('mark-st');
+    if (!st) return;
+    st.textContent = (markWhere(1) || markWhere(2))
+      ? msg.join('   ·   ')
+      : '넣고 싶은 칸을 먼저 누른 뒤, 단추를 누르세요.';
+  }
+  function placeMark(n){
+    var tag = '[삽화' + n + ']';
+    revIns.forEach(function(el){
+      if (el.value.indexOf(tag) === -1) return;
+      el.value = el.value.split(tag).join('').replace(/[ \t]{2,}/g, ' ').replace(/[ \t]+(\n|$)/g, '$1');
+      grow(el);
+    });
+    var el = lastRev, st = document.getElementById('mark-st');
+    if (!el) { if (st) st.textContent = '넣고 싶은 칸을 먼저 누른 뒤, 단추를 누르세요.'; return; }
+    var v = el.value;
+    var pos = (typeof el.selectionStart === 'number') ? Math.min(el.selectionStart, v.length) : v.length;
+    var ins = tag;
+    if (pos > 0 && !/\s/.test(v.charAt(pos - 1))) ins = ' ' + ins;
+    if (pos < v.length && !/\s/.test(v.charAt(pos))) ins = ins + ' ';
+    el.value = v.slice(0, pos) + ins + v.slice(pos);
+    grow(el); el.focus();
+    try { el.setSelectionRange(pos + ins.length, pos + ins.length); } catch(e){}
+    syncMarks(); save();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-mark]'), function(b){
+    b.addEventListener('mousedown', function(e){ e.preventDefault(); });
+    b.addEventListener('click', function(){ placeMark(b.getAttribute('data-mark')); });
+  });
+
+  /* ── 미리보기 ── */
+  function val(id){ var el = document.getElementById(id); return el ? String(el.value || '').trim() : ''; }
+  function esc(x){ return String(x == null ? '' : x).replace(/[&<>]/g, function(c){
+    return c === '&' ? '&amp;' : c === '<' ? '&lt;' : '&gt;'; }); }
+
+  function figHTML(n){
+    var st = pics[String(n)] || { type: 'none' };
+    if (st.type === 'icon') return '<div class="nt-fig"><span class="box">' + iconSvg(st.icon) + '</span></div>';
+    if (st.type === 'draw' && st.data) return '<div class="nt-fig"><span class="box"><img src="' + st.data + '" alt=""></span></div>';
+    return '<div class="nt-fig"><span class="box"><span class="cap">삽화' + n + ' 자리<br>(아직 그림을 고르지 않았습니다)</span></span></div>';
+  }
+  function para(text){
+    var parts = esc(text).split(/(\[삽화[12]\])/);
+    var out = '', buf = '';
+    parts.forEach(function(seg){
+      var m = /^\[삽화([12])\]$/.exec(seg);
+      if (m) {
+        if (buf.trim()) out += '<p class="nt-p">' + buf.trim() + '</p>';
+        buf = '';
+        out += figHTML(m[1]);
+      } else buf += seg;
+    });
+    if (buf.trim()) out += '<p class="nt-p">' + buf.trim() + '</p>';
+    return out;
+  }
+  function who(){
+    var a = val('id-class'), b = val('id-no'), c = val('id-name');
+    return [a, b, c].filter(Boolean).join('  ');
+  }
+
+  var NOTICE_PLAN = [['rv', 1], ['rv', 2], ['rh', 1], ['rv', 3], ['rv', 4], ['rh', 2],
+                     ['rv', 5], ['rv', 6], ['rh', 3], ['rv', 7], ['rv', 8], ['rv', 9]];
+  var NUM = ['', '①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨'];
+
+  function buildNotice(){
+    var code = val('src-code'), title = val('rv-title'), out = '', body = '', empty = [];
+    out += '<div class="nt-head">원자료 ' + (code ? esc(code) : '—') + '&nbsp;&nbsp;·&nbsp;&nbsp;' + esc(who() || '이름을 적어 주세요') + '</div>';
+    out += '<h1 class="nt-title">' + (title ? esc(title) : '<span class="nt-empty">제목을 아직 쓰지 않았습니다</span>') + '</h1>';
+    out += '<hr class="nt-rule">';
+    NOTICE_PLAN.forEach(function(it){
+      var v = val(it[0] + it[1]);
+      if (it[0] === 'rh') { if (v) body += '<div class="nt-sec">' + esc(v) + '</div>'; return; }
+      if (!v) { empty.push(NUM[it[1]]); return; }
+      body += para(v);
+    });
+    out += body || '<p class="nt-empty">아직 쓴 내용이 없습니다. 3단계 칸을 채우면 여기에 나타납니다.</p>';
+    out += '<div class="nt-sign">○ ○ 고 등 학 교 장</div>';
+    return { html: out, empty: empty };
+  }
+
+  function rowsOf(prefix, keys){
+    var out = [];
+    for (var i = 1; i <= 4; i++) {
+      var vals = keys.map(function(k){ return val(prefix + i + k); });
+      if (vals.some(function(v){ return v; })) out.push(vals);
+    }
+    return out;
+  }
+  function buildReport(){
+    var out = '', empty = [];
+    out += '<div class="nt-head">원자료 ' + (val('k-code') ? esc(val('k-code')) : '—') + '&nbsp;&nbsp;·&nbsp;&nbsp;' + esc(who() || '이름을 적어 주세요') + '</div>';
+    out += '<h1 class="nt-title">언어 설계 보고서</h1><hr class="nt-rule">';
+    out += '<div class="rp-meta"><b>내 독자</b> — ' + (val('k-who') ? esc(val('k-who')) : '<span class="nt-empty">아직 적지 않았습니다</span>') + '</div>';
+
+    out += '<div class="rp-h">① 문장 설계 — 고치고 나서 무엇이 달라졌는가</div>';
+    var s1 = rowsOf('s', ['n', 'a', 'c']);
+    if (!s1.length) { out += '<p class="nt-empty">아직 쓴 내용이 없습니다.</p>'; empty.push('문장 설계'); }
+    else if (s1.length < 2) empty.push('문장 설계(2행 이상 필요, 지금 1행)');
+    s1.forEach(function(r){
+      out += '<div class="rp-row"><span class="rp-badge">' + (r[0] ? esc(r[0]) + '번 칸' : '칸 번호 없음') + '</span>'
+           + '<div class="rp-k">무엇을 어떻게 바꿨는가</div><div class="rp-v">' + (esc(r[1]) || '—') + '</div>'
+           + '<div class="rp-k">무엇이 달라지는가</div><div class="rp-v">' + (esc(r[2]) || '—') + '</div></div>';
+    });
+    var best = val('s-best');
+    if (best) out += '<div class="rp-best"><b>가장 공들여 고친 한 곳</b><div class="rp-v">' + esc(best) + '</div></div>';
+    else empty.push('가장 공들여 고친 한 곳');
+
+    out += '<div class="rp-h">② 어휘 설계 — 바꾼 말과 그 근거</div>';
+    var w = rowsOf('w', ['a', 'b', 'c']);
+    if (!w.length) { out += '<p class="nt-empty">아직 쓴 내용이 없습니다.</p>'; empty.push('어휘 설계'); }
+    else if (w.length < 2) empty.push('어휘 설계(2행 이상 필요, 지금 1행)');
+    w.forEach(function(r){
+      out += '<div class="rp-row"><span class="rp-badge">' + (esc(r[0]) || '—') + ' → ' + (esc(r[1]) || '—') + '</span>'
+           + '<div class="rp-v">' + (esc(r[2]) || '—') + '</div></div>';
+    });
+
+    out += '<div class="rp-h">③ 단어 사전 — 남긴 용어 풀이</div>';
+    var g = rowsOf('g', ['a', 'b']);
+    if (!g.length) { out += '<p class="nt-empty">아직 쓴 내용이 없습니다.</p>'; empty.push('단어 사전'); }
+    else if (g.length < 2) empty.push('단어 사전(2개 이상 필요, 지금 1개)');
+    if (g.length) {
+      out += '<dl class="rp-dl">';
+      g.forEach(function(r){ out += '<dt>' + (esc(r[0]) || '—') + '</dt><dd>' + (esc(r[1]) || '—') + '</dd>'; });
+      out += '</dl>';
+    }
+
+    out += '<div class="rp-h">④ 발음 안내 — 소리 내어 읽어 줄 사람을 위해</div>';
+    var pr = rowsOf('p', ['a', 'b', 'c']);
+    if (!pr.length) { out += '<p class="nt-empty">아직 쓴 내용이 없습니다.</p>'; empty.push('발음 안내'); }
+    else if (pr.length < 3) empty.push('발음 안내(3개 이상 필요, 지금 ' + pr.length + '개)');
+    if (pr.length) {
+      out += '<dl class="rp-dl">';
+      pr.forEach(function(r){
+        out += '<dt>' + (esc(r[0]) || '—') + '  ' + (esc(r[1]) || '[  ]') + '</dt><dd>' + (esc(r[2]) || '—') + '</dd>';
+      });
+      out += '</dl>';
+    }
+
+    var rf = val('reflect');
+    if (rf) out += '<div class="rp-h">성찰 — 좋은 글의 기준은 무엇에 따라 달라지는가</div><p class="nt-p">' + esc(rf) + '</p>';
+    return { html: out, empty: empty };
+  }
+
+  var pvWrap = document.getElementById('pv');
+  function openPreview(){
+    if (!pvWrap) return;
+    var kind = pvWrap.getAttribute('data-kind');
+    var r = kind === 'report' ? buildReport() : buildNotice();
+    document.getElementById('pv-body').innerHTML = r.html;
+    var w = document.getElementById('pv-warn');
+    if (w) {
+      w.style.display = 'block';
+      if (r.empty.length) {
+        w.className = 'pv-warn';
+        w.innerHTML = (kind === 'report' ? '아직 비어 있거나 모자란 곳' : '아직 비어 있는 칸')
+          + ' — ' + r.empty.join(', ') + '.  닫고 채운 뒤 다시 눌러 보세요.';
+      } else {
+        w.className = 'pv-warn ok';
+        w.innerHTML = '빈 곳 없이 모두 채워져 있습니다. 이대로 PDF로 저장해 제출하면 됩니다.';
+      }
+    }
+    pvWrap.classList.add('open');
+    pvWrap.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePreview(){
+    if (!pvWrap) return;
+    pvWrap.classList.remove('open');
+    pvWrap.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  var pvo = document.getElementById('pv-open');
+  if (pvo) pvo.addEventListener('click', openPreview);
+  var pvc = document.getElementById('pv-close');
+  if (pvc) pvc.addEventListener('click', closePreview);
+  var pvp = document.getElementById('pv-print');
+  if (pvp) pvp.addEventListener('click', function(){
+    document.body.classList.add('pv-printing');
+    if (typeof window.print === 'function') window.print();
+    setTimeout(function(){ document.body.classList.remove('pv-printing'); }, 600);
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && pvWrap && pvWrap.classList.contains('open')) closePreview();
+  });
+
+  function load(){
+    var data = null;
+    try { data = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch(e){ data = null; }
+    if (data) {
+      fields.forEach(function(el){
+        if (!(el.id in data)) return;
+        if (el.type === 'checkbox') el.checked = !!data[el.id];
+        else el.value = data[el.id];
+      });
+      if (data.__pics) pics = data.__pics;
+    }
+    fields.forEach(grow);
+    renderPic('1'); renderPic('2'); syncMarks();
+    stamp(data ? '저장된 내용을 불러왔습니다' : '자동 저장 켜짐');
+  }
+
+  var timer = null;
+  function save(){
+    var out = {};
+    fields.forEach(function(el){ out[el.id] = (el.type === 'checkbox') ? el.checked : el.value; });
+    out.__pics = pics;
+    try {
+      localStorage.setItem(KEY, JSON.stringify(out));
+      stamp('저장됨 · ' + new Date().toLocaleTimeString('ko-KR', {hour:'2-digit', minute:'2-digit'}));
+    } catch(e){
+      stamp('이 브라우저에서는 자동 저장이 안 됩니다. 작성 후 바로 PDF로 저장하세요.');
+    }
+  }
+
+  function stamp(msg){
+    var el = document.getElementById('saved-at');
+    if (el) el.textContent = msg;
+  }
+
+  fields.forEach(function(el){
+    el.addEventListener('input', function(){
+      grow(el);
+      if (el.className && el.className.indexOf('rev-in') !== -1) syncMarks();
+      clearTimeout(timer);
+      timer = setTimeout(save, 400);
+    });
+    if (el.type === 'checkbox' || el.tagName === 'SELECT') el.addEventListener('change', save);
+  });
+
+  var pb = document.getElementById('btn-print');
+  if (pb) pb.addEventListener('click', function(){
+    fields.forEach(grow);
+    if (typeof window.print === 'function') window.print();
+  });
+
+  var cb = document.getElementById('btn-clear');
+  if (cb) cb.addEventListener('click', function(){
+    if (cb.dataset.armed === '1') {
+      fields.forEach(function(el){
+        if (el.type === 'checkbox') el.checked = false; else el.value = '';
+        grow(el);
+      });
+      pics = { '1': { type: 'none' }, '2': { type: 'none' } };
+      renderPic('1'); renderPic('2'); syncMarks();
+      try { localStorage.removeItem(KEY); } catch(e){}
+      cb.textContent = '내용 모두 지우기';
+      cb.dataset.armed = '0';
+      stamp('모두 지웠습니다');
+    } else {
+      cb.dataset.armed = '1';
+      cb.textContent = '정말 지울까요? 한 번 더 누르기';
+      setTimeout(function(){
+        if (cb.dataset.armed === '1') { cb.dataset.armed = '0'; cb.textContent = '내용 모두 지우기'; }
+      }, 4000);
+    }
+  });
+
+  window.addEventListener('beforeprint', function(){ fields.forEach(grow); });
+  load();
+})();
+</script>
+
+</body></html>
