@@ -183,6 +183,7 @@ input.auto{background:var(--paper)!important;color:var(--ink-soft);font-style:no
 .wallnote{margin-top:8px;font-size:13px;line-height:1.65;color:var(--ink-soft);background:var(--paper);border-radius:6px;padding:9px 11px}
 .wallnote.on{color:var(--ink);background:var(--accent-soft)}
 .wallnote .wb{display:block;margin-bottom:7px;padding-bottom:7px;border-bottom:1px solid rgba(0,0,0,.09);color:var(--ink)}
+.pecho{display:none}
 .doneb{display:flex;flex-direction:column;gap:3px}
 .doneb label{display:flex;gap:5px;align-items:flex-start;font-size:11.5px;line-height:1.35;color:var(--ink-soft);cursor:pointer}
 .doneb input{margin:1px 0 0;flex:none;width:13px;height:13px;accent-color:var(--accent)}
@@ -287,6 +288,22 @@ tr.opt td.rown{color:var(--ink-soft)}
   .ill-card{border:1px solid #999;break-inside:avoid}
   .ill-pic{border:1px solid #999!important}
   .icon-grid,.ill-tools{display:none!important}
+  /* 긴 글이 잘리지 않게: 입력칸 대신 그림자 칸을 찍는다 */
+  .has-echo{display:none!important}
+  .pecho{display:block;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;
+         line-height:1.6;color:#000;border:none;padding:0;min-height:1.5em}
+  td>.pecho{padding:2px 1px}
+  .sheet>.pecho{font-size:11pt}
+  .ttl>.pecho{flex:1;font-size:13pt;font-weight:700;padding:2px 1px}
+  .memo>.pecho{padding:2px 1px}
+  .rev td>.pecho{min-height:2.6em}
+  .nt-p,.rp-v{overflow-wrap:anywhere;word-break:break-word}
+  /* 표가 쪽 너비를 넘어 잘리지 않게 */
+  .tw{overflow:visible!important}
+  table{min-width:0!important;table-layout:fixed;width:100%!important}
+  th,td{overflow-wrap:anywhere;word-break:break-word}
+  th,.dg th{white-space:normal!important;line-height:1.35}
+  select{max-width:100%}
 }
 </style>
 
@@ -610,6 +627,35 @@ tr.opt td.rown{color:var(--ink-soft)}
     el.style.height = (el.scrollHeight + 2) + 'px';
   }
 
+  /* ── 인쇄·PDF용 그림자 칸 ──
+     입력칸은 길게 쓰면 화면 밖이 잘린 채로 인쇄된다.
+     같은 내용을 담은 보통 글 상자를 옆에 두고, 인쇄할 때만 그것을 찍는다. */
+  function echoOf(el){
+    var e = el.nextElementSibling;
+    if (!e || !e.classList || !e.classList.contains('pecho')) {
+      e = document.createElement('div');
+      e.className = 'pecho';
+      e.setAttribute('aria-hidden', 'true');
+      el.classList.add('has-echo');
+      el.parentNode.insertBefore(e, el.nextSibling);
+    }
+    return e;
+  }
+  function syncEcho(el){
+    if (!el || !el.tagName) return;
+    if (el.type === 'checkbox' || el.type === 'button') return;
+    if (el.tagName === 'SELECT') {
+      echoOf(el).textContent = el.value ? el.value : '\u00a0';
+      return;
+    }
+    if (el.tagName !== 'TEXTAREA' && el.type !== 'text') return;
+    echoOf(el).textContent = (el.value && el.value.length) ? el.value : '\u00a0';
+  }
+  function syncAllEchoes(){ fields.forEach(syncEcho); }
+  document.addEventListener('input', function(e){ syncEcho(e.target); });
+  document.addEventListener('change', function(e){ syncEcho(e.target); });
+  window.addEventListener('beforeprint', syncAllEchoes);
+
   /* ── 삽화 자리 표시 ── */
   var revIns = Array.prototype.slice.call(document.querySelectorAll('.rev-in'));
   var lastRev = null;
@@ -712,10 +758,10 @@ tr.opt td.rown{color:var(--ink-soft)}
       var d = doneStat(), need = [];
       if (d.sent < 3) need.push('문장 칸 ' + d.sent + '/3');
       if (d.kinds < 2) need.push('문장 종류 ' + d.kinds + '/2');
-      LEXK.forEach(function(k){ if (!d.lex[k]) need.push(LEXNAME[k] + ' 없음'); });
+      LEXK.forEach(function(k){ var n = d.lex[k] || 0; if (n < 2) need.push(LEXNAME[k] + ' ' + n + '/2'); });
       if (d.rows === 0) { st.textContent = '아직 표시한 칸이 없습니다. 고쳐 쓴 칸마다 한 일을 표시하세요.'; st.className = 'st'; }
-      else if (need.length) { st.textContent = '아직 모자랍니다 — ' + need.join(' · ') + '. (문장 칸 3곳 · 서로 다른 종류 2가지 · 말 바꿈 1곳)'; st.className = 'st'; }
-      else { st.textContent = '문장 칸 ' + d.sent + '곳 · 서로 다른 ' + d.kinds + '가지 · 말 바꿈 ✓' + (d.keep ? ' · 그대로 둔 칸 ' + d.keep + '곳' : '') + ' — 모두 갖췄습니다.'; st.className = 'st ok'; }
+      else if (need.length) { st.textContent = '아직 모자랍니다 — ' + need.join(' · ') + '. (문장 칸 3곳 · 서로 다른 종류 2가지 · 말 바꿈 2곳)'; st.className = 'st'; }
+      else { st.textContent = '문장 칸 ' + d.sent + '곳 · 서로 다른 ' + d.kinds + '가지 · 말 바꿈 ' + (d.lex.d || 0) + '곳' + (d.keep ? ' · 그대로 둔 칸 ' + d.keep + '곳' : '') + ' — 모두 갖췄습니다.'; st.className = 'st ok'; }
     }
   }
   doneBoxes.forEach(function(el){
@@ -909,7 +955,7 @@ tr.opt td.rown{color:var(--ink-soft)}
       if (r.stat) {
         if (r.stat.sent < 3) sNeed.push('문장 칸 ' + r.stat.sent + '/3');
         if (r.stat.kinds < 2) sNeed.push('문장 종류 ' + r.stat.kinds + '/2');
-        if (!r.stat.lex.d) sNeed.push('말 바꿈 없음');
+        if ((r.stat.lex.d || 0) < 2) sNeed.push('말 바꿈 ' + (r.stat.lex.d || 0) + '/2곳');
         if (sNeed.length) drop += '  「이 칸에서 한 일」이 모자랍니다 — ' + sNeed.join(' · ') + '.';
       }
       if (r.empty.length) {
@@ -960,6 +1006,7 @@ tr.opt td.rown{color:var(--ink-soft)}
       if (data.__pics) pics = data.__pics;
     }
     fields.forEach(grow);
+    syncAllEchoes();
     renderPic('1'); renderPic('2'); syncMarks(); paintWall(); paintDone(); paintKind();
     stamp(data ? '저장된 내용을 불러왔습니다' : '자동 저장 켜짐');
   }
