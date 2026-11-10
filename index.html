@@ -59,7 +59,8 @@ input[type=text],textarea{
   background:var(--card);border:1px solid var(--line);border-radius:6px;
   padding:7px 9px;width:100%;
 }
-textarea{resize:vertical;overflow:hidden;line-height:1.7;min-height:52px;display:block}
+textarea{resize:none;overflow:hidden;line-height:1.7;min-height:52px;display:block}
+textarea.auto{min-height:36px;padding-top:7px;padding-bottom:7px}
 input[type=text]:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
 .idbar input[type=text]{width:90px;flex:none}
 .idbar label:last-child input[type=text]{width:120px}
@@ -198,7 +199,7 @@ input.auto{background:var(--paper)!important;color:var(--ink-soft);font-style:no
 .tiny{font-size:11.5px;color:var(--ink-soft)}
 .memo{margin:18px 0 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--paper)}
 .memo label{display:block;font-size:13.5px;font-weight:700;color:var(--accent);margin-bottom:7px}
-.memo input{width:100%}
+.memo input,.memo textarea{width:100%}
 .memo .hint{margin:7px 0 0}
 .minnote{font-size:12.5px;color:var(--ink-soft);margin:0 0 7px;line-height:1.55}
 .minnote b{color:var(--accent)}
@@ -342,7 +343,7 @@ tr.opt td.rown{color:var(--ink-soft)}
         <tr><th style="width:150px">받은 자료의 기호</th>
           <td><select id="k-code"><option value="">— 고르세요 —</option><option>A</option><option>B</option><option>C</option></select></td></tr>
         <tr><th>내가 정한 독자</th>
-          <td><input type="text" id="k-who" placeholder="3차시에 쓴 그대로 옮겨 적으세요"></td></tr>
+          <td><textarea id="k-who" class="auto" rows="1" placeholder="3차시에 쓴 그대로 옮겨 적으세요"></textarea></td></tr>
         <tr><th>이 독자가 가장 먼저<br>막히는 곳</th>
           <td><select id="k-wall">
               <option value="">— 3차시에 고른 것과 같게 —</option>
@@ -377,9 +378,9 @@ tr.opt td.rown{color:var(--ink-soft)}
     <div class="tw">
       <table>
         <tr><th class="rown">#</th><th style="width:20%">원래 어휘</th><th style="width:20%">바꾼 어휘</th><th>의미 관계·어감의 차이를 근거로</th></tr>
-        <tr><td class="rown">1</td><td><input type="text" id="w1a"></td><td><input type="text" id="w1b"></td><td><textarea id="w1c" rows="2" placeholder="예) ‘당부드립니다’와 ‘부탁드립니다’는 유의 관계이지만…"></textarea></td></tr>
-        <tr><td class="rown">2</td><td><input type="text" id="w2a"></td><td><input type="text" id="w2b"></td><td><textarea id="w2c" rows="2"></textarea></td></tr>
-        <tr class="opt"><td class="rown">3<span class="optm">선택</span></td><td><input type="text" id="w3a"></td><td><input type="text" id="w3b"></td><td><textarea id="w3c" rows="2"></textarea></td></tr>
+        <tr><td class="rown">1</td><td><input type="text" id="w1a"></td><td><textarea id="w1b" class="auto" rows="1"></textarea></td><td><textarea id="w1c" rows="2" placeholder="예) ‘당부드립니다’와 ‘부탁드립니다’는 유의 관계이지만…"></textarea></td></tr>
+        <tr><td class="rown">2</td><td><input type="text" id="w2a"></td><td><textarea id="w2b" class="auto" rows="1"></textarea></td><td><textarea id="w2c" rows="2"></textarea></td></tr>
+        <tr class="opt"><td class="rown">3<span class="optm">선택</span></td><td><input type="text" id="w3a"></td><td><textarea id="w3b" class="auto" rows="1"></textarea></td><td><textarea id="w3c" rows="2"></textarea></td></tr>
       </table>
     </div>
 
@@ -388,9 +389,9 @@ tr.opt td.rown{color:var(--ink-soft)}
     <div class="tw">
       <table>
         <tr><th class="rown">#</th><th style="width:26%">남긴 용어</th><th>쉬운 풀이</th></tr>
-        <tr><td class="rown">1</td><td><input type="text" id="g1a"></td><td><input type="text" id="g1b" placeholder="예) 학교가 정해 둔 규칙을 적어 놓은 글"></td></tr>
-        <tr><td class="rown">2</td><td><input type="text" id="g2a"></td><td><input type="text" id="g2b"></td></tr>
-        <tr class="opt"><td class="rown">3<span class="optm">선택</span></td><td><input type="text" id="g3a"></td><td><input type="text" id="g3b"></td></tr>
+        <tr><td class="rown">1</td><td><input type="text" id="g1a"></td><td><textarea id="g1b" class="auto" rows="1" placeholder="예) 학교가 정해 둔 규칙을 적어 놓은 글"></textarea></td></tr>
+        <tr><td class="rown">2</td><td><input type="text" id="g2a"></td><td><textarea id="g2b" class="auto" rows="1"></textarea></td></tr>
+        <tr class="opt"><td class="rown">3<span class="optm">선택</span></td><td><input type="text" id="g3a"></td><td><textarea id="g3b" class="auto" rows="1"></textarea></td></tr>
       </table>
     </div>
 
@@ -400,9 +401,9 @@ tr.opt td.rown{color:var(--ink-soft)}
     <div class="tw">
       <table>
         <tr><th class="rown">#</th><th style="width:22%">단어</th><th style="width:20%">표준 발음</th><th>어떤 음운 변동인가</th></tr>
-        <tr><td class="rown">1</td><td><input type="text" id="p1a"></td><td><input type="text" id="p1b" placeholder="[     ]"></td><td><input type="text" id="p1c"></td></tr>
-        <tr><td class="rown">2</td><td><input type="text" id="p2a"></td><td><input type="text" id="p2b" placeholder="[     ]"></td><td><input type="text" id="p2c"></td></tr>
-        <tr><td class="rown">3</td><td><input type="text" id="p3a"></td><td><input type="text" id="p3b" placeholder="[     ]"></td><td><input type="text" id="p3c"></td></tr>
+        <tr><td class="rown">1</td><td><input type="text" id="p1a"></td><td><input type="text" id="p1b" placeholder="[     ]"></td><td><textarea id="p1c" class="auto" rows="1"></textarea></td></tr>
+        <tr><td class="rown">2</td><td><input type="text" id="p2a"></td><td><input type="text" id="p2b" placeholder="[     ]"></td><td><textarea id="p2c" class="auto" rows="1"></textarea></td></tr>
+        <tr><td class="rown">3</td><td><input type="text" id="p3a"></td><td><input type="text" id="p3b" placeholder="[     ]"></td><td><textarea id="p3c" class="auto" rows="1"></textarea></td></tr>
               </table>
     </div>
 
@@ -655,6 +656,25 @@ tr.opt td.rown{color:var(--ink-soft)}
   document.addEventListener('input', function(e){ syncEcho(e.target); });
   document.addEventListener('change', function(e){ syncEcho(e.target); });
   window.addEventListener('beforeprint', syncAllEchoes);
+
+  /* 한글 입력(조합 중)·붙여넣기·화면 회전에서도 칸이 따라 늘어나게 */
+  function bump(el){
+    if (!el || el.tagName !== 'TEXTAREA') return;
+    grow(el); syncEcho(el);
+    setTimeout(function(){ grow(el); syncEcho(el); }, 0);
+  }
+  ['input','compositionupdate','compositionend','keyup','paste','cut','change','focus','blur']
+    .forEach(function(ev){
+      document.addEventListener(ev, function(e){ bump(e.target); }, true);
+    });
+  function growAll(){ fields.forEach(grow); }
+  window.addEventListener('resize', growAll);
+  window.addEventListener('orientationchange', function(){ setTimeout(growAll, 120); });
+  if (window.ResizeObserver) {
+    try {
+      new ResizeObserver(function(){ growAll(); }).observe(document.body);
+    } catch (e) {}
+  }
 
   /* ── 삽화 자리 표시 ── */
   var revIns = Array.prototype.slice.call(document.querySelectorAll('.rev-in'));
