@@ -362,38 +362,51 @@ tr.opt td.rown{color:var(--ink-soft)}
 
     <h3 style="font-size:15px;margin:18px 0 7px">① 문장 설계 <span style="font-weight:400;color:var(--ink-soft);font-size:13px">— 고치고 나서 무엇이 달라졌는가</span></h3>
     <p class="hint">문장을 다시 옮겨 적지 않습니다. 고친 문장은 3차시에 낸 수정본에 이미 있으니, <b>어느 칸인지만 가리키세요.</b> 2단계에서 쓴 ‘왜 어려운가’와는 다른 칸입니다. 거기는 <b>고치기 전</b>의 진단이고, 여기는 <b>고친 뒤</b>에 무엇이 달라졌는지를 쓰는 자리입니다.<br>3차시 진단표의 <b>‘문장 구조’ 세 행</b>이 그대로 이 표의 세 행이 됩니다. 어느 칸인지 모르겠으면 <b>3차시 PDF의 「이 칸에서 한 일」</b>도 함께 보세요. 표시가 많은 칸이 설명할 거리가 많은 칸입니다. 여기에 쓰는 설명은 그 표시와 어긋나지 않아야 합니다.</p>
-    <p class="minnote"><b>세 행 모두</b> 채우세요. 선택 행은 없습니다.<br>「무엇을 바꿨나」는 세 행 가운데 <b>서로 다른 것이 두 가지 이상</b>이어야 합니다. 세 행 모두 같은 것을 고르면 한 행으로 셉니다. 3차시에서 그 칸에 표시한 「이 칸에서 한 일」과 어긋나지 않게 고르세요.</p>
+    <p class="minnote"><b>앞 세 행은 모두</b> 채우세요. 3차시에서 세 곳보다 많이 고쳤다면 표 아래 <b>＋ 한 행 더</b>를 눌러 칸을 늘릴 수 있습니다(늘린 칸은 선택).<br>「무엇을 바꿨나」는 <b>서로 다른 것이 두 가지 이상</b>이어야 합니다. 모두 같은 것을 고르면 한 행으로 셉니다. 3차시에서 그 칸에 표시한 「이 칸에서 한 일」과 어긋나지 않게 고르세요.</p>
     <div class="tw">
       <table>
         <tr><th class="rown">#</th><th style="width:52px">칸</th><th style="width:118px">무엇을 바꿨나</th><th style="width:31%">무엇을 어떻게 바꿨는가 <span style="font-weight:400">(문법 용어로)</span></th><th>바꾸고 나서 내 독자에게 무엇이 달라지는가</th></tr>
         <tr><td class="rown">1</td><td><input type="text" id="s1n" maxlength="2" style="text-align:center" placeholder="⑤"></td><td><select id="s1k" class="kindsel"><option value="">— 고르세요 —</option><option>문장 나눔</option><option>피동→능동</option><option>명사→동사</option></select></td><td><textarea id="s1a" rows="2" placeholder="예) ‘제출이 이루어져야’라는 피동·명사화 표현을 ‘내야 합니다’라는 능동 동사로 바꿨다."></textarea></td><td><textarea id="s1c" rows="2" placeholder="예) 누가 무엇을 해야 하는지가 드러나, 내 독자가 자기 할 일로 읽을 수 있다."></textarea></td></tr>
         <tr><td class="rown">2</td><td><input type="text" id="s2n" maxlength="2" style="text-align:center"></td><td><select id="s2k" class="kindsel"><option value="">— 고르세요 —</option><option>문장 나눔</option><option>피동→능동</option><option>명사→동사</option></select></td><td><textarea id="s2a" rows="2"></textarea></td><td><textarea id="s2c" rows="2"></textarea></td></tr>
         <tr><td class="rown">3</td><td><input type="text" id="s3n" maxlength="2" style="text-align:center"></td><td><select id="s3k" class="kindsel"><option value="">— 고르세요 —</option><option>문장 나눔</option><option>피동→능동</option><option>명사→동사</option></select></td><td><textarea id="s3a" rows="2"></textarea></td><td><textarea id="s3c" rows="2"></textarea></td></tr>
+        <tr class="opt xrow" data-grp="s" data-xrow="4" hidden><td class="rown">4<span class="optm">더 씀</span></td><td><input type="text" id="s4n" maxlength="2" style="text-align:center"></td><td><select id="s4k" class="kindsel"><option value="">— 고르세요 —</option><option>문장 나눔</option><option>피동→능동</option><option>명사→동사</option></select></td><td><textarea id="s4a" rows="2"></textarea></td><td><textarea id="s4c" rows="2"></textarea></td></tr>
+        <tr class="opt xrow" data-grp="s" data-xrow="5" hidden><td class="rown">5<span class="optm">더 씀</span></td><td><input type="text" id="s5n" maxlength="2" style="text-align:center"></td><td><select id="s5k" class="kindsel"><option value="">— 고르세요 —</option><option>문장 나눔</option><option>피동→능동</option><option>명사→동사</option></select></td><td><textarea id="s5a" rows="2"></textarea></td><td><textarea id="s5c" rows="2"></textarea></td></tr>
+        <tr class="opt xrow" data-grp="s" data-xrow="6" hidden><td class="rown">6<span class="optm">더 씀</span></td><td><input type="text" id="s6n" maxlength="2" style="text-align:center"></td><td><select id="s6k" class="kindsel"><option value="">— 고르세요 —</option><option>문장 나눔</option><option>피동→능동</option><option>명사→동사</option></select></td><td><textarea id="s6a" rows="2"></textarea></td><td><textarea id="s6c" rows="2"></textarea></td></tr>
       </table>
     </div>
+    <p class="noprint" style="margin:9px 0 0"><button type="button" class="tbtn" id="s-add">＋ 한 행 더</button>
+      <span class="st" id="s-add-st">3차시에서 세 곳보다 많이 고쳤다면 눌러서 칸을 늘리세요. 늘린 칸은 선택입니다.</span></p>
     <p class="kindwarn" id="kind-st" style="display:none"></p>
 
     <h3 style="font-size:15px;margin:22px 0 7px">② 어휘 설계 <span style="font-weight:400;color:var(--ink-soft);font-size:13px">— 바꾼 말과 그 근거</span></h3>
-    <p class="minnote">세 행 가운데 <b>두 행 이상</b>. 3차시 진단표의 ‘어휘’ 두 행이 이 표의 두 행이 됩니다. 흐린 행은 선택입니다.</p>
+    <p class="minnote"><b>두 행을 채우세요.</b> 3차시 진단표의 ‘어휘’ 두 행이 이 표의 두 행이 됩니다. 바꾼 말이 더 있으면 표 아래 <b>＋ 한 행 더</b>를 눌러 칸을 늘릴 수 있습니다(늘린 칸은 선택).</p>
     <div class="tw">
       <table>
         <tr><th class="rown">#</th><th style="width:20%">원래 어휘</th><th style="width:20%">바꾼 어휘</th><th>의미 관계·어감의 차이를 근거로</th></tr>
         <tr><td class="rown">1</td><td><input type="text" id="w1a"></td><td><textarea id="w1b" class="auto" rows="1"></textarea></td><td><textarea id="w1c" rows="2" placeholder="예) ‘당부드립니다’와 ‘부탁드립니다’는 유의 관계이지만…"></textarea></td></tr>
         <tr><td class="rown">2</td><td><input type="text" id="w2a"></td><td><textarea id="w2b" class="auto" rows="1"></textarea></td><td><textarea id="w2c" rows="2"></textarea></td></tr>
-        <tr class="opt"><td class="rown">3<span class="optm">선택</span></td><td><input type="text" id="w3a"></td><td><textarea id="w3b" class="auto" rows="1"></textarea></td><td><textarea id="w3c" rows="2"></textarea></td></tr>
+        <tr class="opt xrow" data-grp="w" hidden><td class="rown">3<span class="optm">더 씀</span></td><td><input type="text" id="w3a"></td><td><textarea id="w3b" class="auto" rows="1"></textarea></td><td><textarea id="w3c" rows="2"></textarea></td></tr>
+        <tr class="opt xrow" data-grp="w" hidden><td class="rown">4<span class="optm">더 씀</span></td><td><input type="text" id="w4a"></td><td><textarea id="w4b" class="auto" rows="1"></textarea></td><td><textarea id="w4c" rows="2"></textarea></td></tr>
+        <tr class="opt xrow" data-grp="w" hidden><td class="rown">5<span class="optm">더 씀</span></td><td><input type="text" id="w5a"></td><td><textarea id="w5b" class="auto" rows="1"></textarea></td><td><textarea id="w5c" rows="2"></textarea></td></tr>
       </table>
     </div>
+    <p class="noprint" style="margin:9px 0 0"><button type="button" class="tbtn" id="w-add">＋ 한 행 더</button>
+      <span class="st" id="w-add-st"></span></p>
 
     <h3 style="font-size:15px;margin:22px 0 7px">③ 단어 사전 <span style="font-weight:400;color:var(--ink-soft);font-size:13px">— 바꾸지 않고 남긴 용어 풀이 (풀이 형식을 통일할 것)</span></h3>
-    <p class="minnote">세 개 가운데 <b>두 개 이상</b>. 흐린 행은 선택입니다.</p>
+    <p class="minnote"><b>두 개를 채우세요.</b> 남긴 용어가 더 있으면 표 아래 <b>＋ 한 행 더</b>를 눌러 칸을 늘릴 수 있습니다(늘린 칸은 선택).</p>
     <div class="tw">
       <table>
         <tr><th class="rown">#</th><th style="width:26%">남긴 용어</th><th>쉬운 풀이</th></tr>
         <tr><td class="rown">1</td><td><input type="text" id="g1a"></td><td><textarea id="g1b" class="auto" rows="1" placeholder="예) 학교가 정해 둔 규칙을 적어 놓은 글"></textarea></td></tr>
         <tr><td class="rown">2</td><td><input type="text" id="g2a"></td><td><textarea id="g2b" class="auto" rows="1"></textarea></td></tr>
-        <tr class="opt"><td class="rown">3<span class="optm">선택</span></td><td><input type="text" id="g3a"></td><td><textarea id="g3b" class="auto" rows="1"></textarea></td></tr>
+        <tr class="opt xrow" data-grp="g" hidden><td class="rown">3<span class="optm">더 씀</span></td><td><input type="text" id="g3a"></td><td><textarea id="g3b" class="auto" rows="1"></textarea></td></tr>
+        <tr class="opt xrow" data-grp="g" hidden><td class="rown">4<span class="optm">더 씀</span></td><td><input type="text" id="g4a"></td><td><textarea id="g4b" class="auto" rows="1"></textarea></td></tr>
+        <tr class="opt xrow" data-grp="g" hidden><td class="rown">5<span class="optm">더 씀</span></td><td><input type="text" id="g5a"></td><td><textarea id="g5b" class="auto" rows="1"></textarea></td></tr>
       </table>
     </div>
+    <p class="noprint" style="margin:9px 0 0"><button type="button" class="tbtn" id="g-add">＋ 한 행 더</button>
+      <span class="st" id="g-add-st"></span></p>
 
     <h3 style="font-size:15px;margin:22px 0 7px">④ 발음 안내 <span style="font-weight:400;color:var(--ink-soft);font-size:13px">— 이 자료를 소리 내어 읽어 줄 사람을 위해</span></h3>
     <p class="hint">내 수정본에서 <b>표기와 발음이 다른 단어</b>를 찾습니다. 음운 변동의 이름까지 밝히세요. 두 가지 변동이 겹친 단어를 찾으면 더 좋습니다.</p>
@@ -407,16 +420,18 @@ tr.opt td.rown{color:var(--ink-soft)}
               </table>
     </div>
 
-    <h3 style="font-size:15px;margin:24px 0 7px">⑤ 마무리 <span style="font-weight:400;color:var(--ink-soft);font-size:13px">— 네 가지를 통틀어</span></h3>
+    <h3 style="font-size:15px;margin:24px 0 7px">⑤ 다시 보며 <span style="font-weight:400;color:var(--ink-soft);font-size:13px">— 원자료와 내 3차시 글을 나란히 놓고</span></h3>
+    <p class="hint">종이 원자료와 3차시 PDF를 함께 펴 두고 쓰세요. 첫 칸만 채점에 들어갑니다. 아래 두 칸은 <b>비워 두어도 됩니다.</b></p>
     <div class="tw">
       <table>
-        <tr><th style="width:150px">내 독자 때문에<br>가장 공들인 한 곳</th>
-          <td><textarea id="s-best" rows="3" placeholder="문장 설계표만이 아니라 위 네 가지를 통틀어, 수정본 전체에서 한 곳을 고르세요. 1단계에서 고른 막힘과 같은 영역이면 가장 좋습니다. (단어 수준 → 어휘·단어 사전 / 문장 수준 → 문장 구조 / 글 전체 수준 → 소제목·분량·삽화)&#10;다른 영역을 골랐다면 왜 그쪽에 더 공을 들였는지를 내 독자와 이어 쓰세요. 한 문장이면 됩니다."></textarea></td></tr>
+        <tr><th style="width:168px">내 독자 때문에<br>가장 공들인 한 곳</th><td><textarea id="s-best" rows="3" placeholder="문장 설계표만이 아니라 위 네 가지를 통틀어, 수정본 전체에서 한 곳을 고르세요. 1단계에서 고른 막힘과 같은 영역이면 가장 좋습니다. (단어 수준 → 어휘·단어 사전 / 문장 수준 → 문장 구조 / 글 전체 수준 → 소제목·분량·삽화)&#10;다른 영역을 골랐다면 왜 그쪽에 더 공을 들였는지를 내 독자와 이어 쓰세요. 한 문장이면 됩니다."></textarea></td></tr>
+        <tr class="opt"><th>원자료와 견주어<br>가장 크게 달라진 것</th><td><textarea id="s-cmp" rows="2" placeholder="두 글을 나란히 놓고 보면 무엇이 가장 달라 보이나요. 느낌이 아니라 두 글을 견주어 쓰세요. 예) 원자료는 한 문단에 할 일이 네 가지였는데, 내 글은 한 문장에 하나씩만 담겨 있다."></textarea></td></tr>
+        <tr class="opt"><th>다시 쓴다면<br>여기를 더 고치겠다</th><td><textarea id="s-again" rows="2" placeholder="3차시 글을 다시 보니 아쉬운 곳이 있나요. 어느 칸인지 번호를 쓰고, 어떻게 고치고 싶은지 적으세요. 예) ⑦번 칸. 아직 문장이 길어서 둘로 더 나누고 싶다."></textarea></td></tr>
       </table>
     </div>
 
     <h3 style="font-size:15px;margin:24px 0 7px">덧붙임 <span style="font-weight:400;color:var(--ink-soft);font-size:13px">— 내 독자를 위해 더 하고 싶었던 것</span></h3>
-    <p class="hint">문법으로 설명되지 않는 것도 좋습니다. 3차시에 적어 둔 메모가 있으면 그것을 이어 쓰세요. <b>비워 두어도 됩니다.</b></p>
+    <p class="hint"><b>글을 더 고치는 일 말고, 글 밖에서</b> 더 하고 싶었던 것을 쓰세요. (글을 더 고치고 싶은 것은 바로 위 「다시 쓴다면」 칸에 씁니다.)<br>3차시에 적어 둔 메모가 있으면 그것을 이어 쓰세요. <b>비워 두어도 됩니다.</b></p>
     <div class="tw">
       <table>
         <tr><td><textarea id="addon" rows="3" placeholder="글자를 크게 하거나 중요한 곳이 눈에 띄게 하고 싶었다 · 전화번호와 날짜를 따로 떼어 크게 보여 주고 싶었다 · 표나 순서 번호로 정리하고 싶었다 · 종이 말고 문자나 음성으로도 보내면 좋겠다 · 내가 직접 읽어 드리면 좋겠다&#10;왜 그렇게 하고 싶었는지를 내 독자와 이어 한두 문장으로 쓰면 더 좋습니다."></textarea></td></tr>
@@ -800,7 +815,7 @@ tr.opt td.rown{color:var(--ink-soft)}
   /* ── 문장 설계: 두 행이 같은 종류인지 ── */
   function kindVals(){
     var v = [];
-    for (var i = 1; i <= 3; i++) { var t = val('s' + i + 'k'); if (t) v.push(t); }
+    for (var i = 1; i <= 6; i++) { var t = val('s' + i + 'k'); if (t) v.push(t); }
     return v;
   }
   function kindDistinct(){
@@ -814,23 +829,65 @@ tr.opt td.rown{color:var(--ink-soft)}
     var v = kindVals(), d = kindDistinct();
     if (!v.length) { el.style.display = 'none'; return; }
     el.style.display = 'block';
-    if (v.length >= 2 && d < v.length) {
+    if (v.length < 3) {
       el.className = 'kindwarn';
-      el.textContent = '같은 종류를 두 번 골랐습니다. 서로 다른 종류를 고르세요. 같은 종류끼리는 한 행으로 셉니다.';
-    } else if (v.length < 3) {
-      el.className = 'kindwarn';
-      el.textContent = '세 행 모두 채워야 합니다. 지금 ' + v.length + '행입니다.';
+      el.textContent = '앞 세 행을 모두 채워야 합니다. 지금 ' + v.length + '행입니다.';
     } else if (d < 2) {
       el.className = 'kindwarn';
       el.textContent = '서로 다른 종류가 두 가지 이상이어야 합니다. 지금 ' + d + '가지입니다.';
     } else {
       el.className = 'kindwarn ok';
-      el.textContent = '세 행 · 서로 다른 종류 ' + d + '가지 — 좋습니다.';
+      el.textContent = v.length + '행 · 서로 다른 종류 ' + d + '가지 — 좋습니다.';
     }
   }
-  ['s1k','s2k','s3k'].forEach(function(id){
+  ['s1k','s2k','s3k','s4k','s5k','s6k'].forEach(function(id){
     var el = document.getElementById(id);
     if (el) el.addEventListener('change', paintKind);
+  });
+
+  /* ── 표 칸 늘리기 (문장 설계 · 어휘 설계 · 단어 사전) ── */
+  var GRPS = ['s', 'w', 'g'];
+  var ADDMSG = {
+    s: '3차시에서 세 곳보다 많이 고쳤다면 눌러서 칸을 늘리세요. 늘린 칸은 선택입니다.',
+    w: '바꾼 말이 더 있으면 눌러서 칸을 늘리세요. 늘린 칸은 선택입니다.',
+    g: '남긴 용어가 더 있으면 눌러서 칸을 늘리세요. 늘린 칸은 선택입니다.'
+  };
+  var XKEYS = { s: ['n','k','a','c'], w: ['a','b','c'], g: ['a','b'] };
+  var XBASE = { s: 3, w: 2, g: 2 };
+  var xRows = {};
+  GRPS.forEach(function(g){
+    xRows[g] = Array.prototype.slice.call(document.querySelectorAll('tr.xrow[data-grp="' + g + '"]'));
+  });
+  function shownRows(g){
+    return (xRows[g] || []).filter(function(tr){ return !tr.hidden; }).length;
+  }
+  function showRows(g, n){
+    var list = xRows[g] || [];
+    if (n > list.length) n = list.length;
+    list.forEach(function(tr, k){ tr.hidden = (k >= n); });
+    var btn = document.getElementById(g + '-add');
+    var st = document.getElementById(g + '-add-st');
+    if (btn) btn.style.display = (n >= list.length) ? 'none' : '';
+    if (st) st.textContent = n === 0 ? ADDMSG[g]
+      : '늘린 칸 ' + n + '개. 늘린 칸은 선택이라 비워 두어도 됩니다.';
+    fields.forEach(grow);
+  }
+  function restoreRows(data){
+    var saved = (data && data.__xrows) || null;
+    if (typeof saved === 'number') saved = { s: saved };
+    GRPS.forEach(function(g){
+      var n = (saved && saved[g]) ? saved[g] : 0;
+      (xRows[g] || []).forEach(function(tr, k){
+        var row = XBASE[g] + k + 1;
+        var any = XKEYS[g].some(function(key){ return val(g + row + key); });
+        if (any) n = Math.max(n, k + 1);
+      });
+      showRows(g, n);
+    });
+  }
+  GRPS.forEach(function(g){
+    var btn = document.getElementById(g + '-add');
+    if (btn) btn.addEventListener('click', function(){ showRows(g, shownRows(g) + 1); save(); });
   });
 
   /* ── 미리보기 ── */
@@ -886,7 +943,7 @@ tr.opt td.rown{color:var(--ink-soft)}
 
   function rowsOf(prefix, keys){
     var out = [];
-    for (var i = 1; i <= 4; i++) {
+    for (var i = 1; i <= 6; i++) {
       var vals = keys.map(function(k){ return val(prefix + i + k); });
       if (vals.some(function(v){ return v; })) out.push(vals);
     }
@@ -901,7 +958,7 @@ tr.opt td.rown{color:var(--ink-soft)}
     out += '<div class="rp-h">① 문장 설계 — 고치고 나서 무엇이 달라졌는가</div>';
     var s1 = rowsOf('s', ['n', 'k', 'a', 'c']);
     if (!s1.length) { out += '<p class="nt-empty">아직 쓴 내용이 없습니다.</p>'; empty.push('문장 설계'); }
-    else if (s1.length < 3) empty.push('문장 설계(3행 모두 필요, 지금 ' + s1.length + '행)');
+    else if (s1.length < 3) empty.push('문장 설계(앞 세 행이 모두 필요, 지금 ' + s1.length + '행)');
     if (s1.length && kindDistinct() < 2) empty.push('문장 설계(서로 다른 종류 2가지 필요)');
     s1.forEach(function(r){
       out += '<div class="rp-row"><span class="rp-badge">' + (r[0] ? esc(r[0]) + '번 칸' : '칸 번호 없음')
@@ -941,10 +998,15 @@ tr.opt td.rown{color:var(--ink-soft)}
       out += '</dl>';
     }
 
-    out += '<div class="rp-h">⑤ 마무리 — 네 가지를 통틀어</div>';
+    out += '<div class="rp-h">⑤ 다시 보며 — 원자료와 내 3차시 글을 나란히 놓고</div>';
     var best = val('s-best');
     if (best) out += '<div class="rp-best"><b>내 독자 때문에 가장 공들인 한 곳</b><div class="rp-v">' + esc(best) + '</div></div>';
     else { out += '<p class="nt-empty">아직 쓰지 않았습니다.</p>'; empty.push('가장 공들인 한 곳'); }
+    [['원자료와 견주어 가장 크게 달라진 것', 's-cmp'],
+     ['다시 쓴다면 여기를 더 고치겠다', 's-again']].forEach(function(it){
+      var v = val(it[1]);
+      if (v) out += '<div class="rp-row"><span class="rp-badge alt">' + it[0] + '</span><div class="rp-v">' + esc(v) + '</div></div>';
+    });
 
     var addon = val('addon');
     if (addon) out += '<div class="rp-h">덧붙임 — 내 독자를 위해 더 하고 싶었던 것</div><p class="nt-p">' + esc(addon) + '</p>';
@@ -1025,6 +1087,7 @@ tr.opt td.rown{color:var(--ink-soft)}
       });
       if (data.__pics) pics = data.__pics;
     }
+    if (typeof restoreRows === 'function') restoreRows(data);
     fields.forEach(grow);
     syncAllEchoes();
     renderPic('1'); renderPic('2'); syncMarks(); paintWall(); paintDone(); paintKind();
@@ -1036,6 +1099,7 @@ tr.opt td.rown{color:var(--ink-soft)}
     var out = {};
     fields.forEach(function(el){ out[el.id] = (el.type === 'checkbox') ? el.checked : el.value; });
     out.__pics = pics;
+    out.__xrows = {}; GRPS.forEach(function(g){ out.__xrows[g] = shownRows(g); });
     try {
       localStorage.setItem(KEY, JSON.stringify(out));
       stamp('저장됨 · ' + new Date().toLocaleTimeString('ko-KR', {hour:'2-digit', minute:'2-digit'}));
